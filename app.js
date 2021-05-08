@@ -29,3 +29,76 @@ function createBord(grid, squares, width) {
 
 createBord(userGrid, userSquares, BOARD_WIDTH);
 createBord(computerGrid, computerSquares, BOARD_WIDTH);
+
+//Ships
+const shipArray = [
+  {
+    name: "destroyer",
+    directions: [
+      [0, 1],
+      [0, BOARD_WIDTH],
+    ],
+  },
+  {
+    name: "submarine",
+    directions: [
+      [0, 1, 2],
+      [0, BOARD_WIDTH, BOARD_WIDTH * 2],
+    ],
+  },
+  {
+    name: "cruiser",
+    directions: [
+      [0, 1, 2],
+      [0, BOARD_WIDTH, BOARD_WIDTH * 2],
+    ],
+  },
+  {
+    name: "battleship",
+    directions: [
+      [0, 1, 2, 3],
+      [0, BOARD_WIDTH, BOARD_WIDTH * 2, BOARD_WIDTH * 3],
+    ],
+  },
+  {
+    name: "carrier",
+    directions: [
+      [0, 1, 2, 3, 4],
+      [0, BOARD_WIDTH, BOARD_WIDTH * 2, BOARD_WIDTH * 3, BOARD_WIDTH * 4],
+    ],
+  },
+];
+
+//Generate computer's ships
+function generateComputerShips(ship) {
+  let randomDirection = Math.floor(Math.random() * ship.directions.length);
+  let current = ship.directions[randomDirection];
+  if (randomDirection === 0) direction = 1;
+  else direction = 10;
+  let randomStart = Math.abs(
+    Math.floor(
+      Math.random() * computerSquares.length -
+        ship.directions[0].length * direction
+    )
+  );
+
+  const isTaken = current.some((index) =>
+    computerSquares[randomStart + index].classList.contains("taken")
+  );
+  const isAtRightEdge = current.some(
+    (index) => (randomStart + index) % BOARD_WIDTH === BOARD_WIDTH - 1
+  );
+  const isAtLeftEdge = current.some(
+    (index) => (randomStart + index) % BOARD_WIDTH === 0
+  );
+
+  if (!isTaken && !isAtRightEdge && !isAtLeftEdge)
+    current.forEach((index) =>
+      computerSquares[randomStart + index].classList.add("taken", ship.name)
+    );
+  else generateComputerShips(ship);
+}
+
+shipArray.forEach((ship) => {
+  generateComputerShips(ship);
+});
