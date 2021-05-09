@@ -14,6 +14,7 @@ const turnDisplay = document.getElementById("whose-go");
 const infoDisplay = document.getElementById("info");
 const userSquares = [];
 const computerSquares = [];
+let isHorizontal = true;
 
 const BOARD_WIDTH = 10;
 
@@ -101,4 +102,29 @@ function generateComputerShips(ship) {
 
 shipArray.forEach((ship) => {
   generateComputerShips(ship);
+});
+
+//Rotate the ships
+function rotateShips() {
+  if (isHorizontal) {
+    destroyer.classList.toggle("destroyer-container-vertical");
+    submarine.classList.toggle("submarine-container-vertical");
+    cruiser.classList.toggle("cruiser-container-vertical");
+    battleship.classList.toggle("battleship-container-vertical");
+    carrier.classList.toggle("carrier-container-vertical");
+    isHorizontal = false;
+  } else {
+    destroyer.classList.toggle("destroyer-container-vertical");
+    submarine.classList.toggle("submarine-container-vertical");
+    cruiser.classList.toggle("cruiser-container-vertical");
+    battleship.classList.toggle("battleship-container-vertical");
+    carrier.classList.toggle("carrier-container-vertical");
+    isHorizontal = true;
+  }
+}
+
+rotateBtn.addEventListener("click", () => {
+  rotateShips();
+  console.log(isHorizontal);
+  console.log("here");
 });
